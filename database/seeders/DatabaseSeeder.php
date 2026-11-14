@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Src\Blog\Comment\Infrastructure\EloquentModels\CommentEloquentModel;
+use Src\Auth\Infrastructure\EloquentModels\UserEloquentModel;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,9 +18,10 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
+        UserEloquentModel::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+        CommentEloquentModel::factory(20)->create();
     }
 }

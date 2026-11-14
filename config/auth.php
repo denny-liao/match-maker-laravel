@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use Src\Auth\Infrastructure\EloquentModels\UserEloquentModel as User;
 
 return [
 

@@ -1,0 +1,71 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Src\**BoundedContext**\**Domain**\Presentation\Controllers;
+
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
+
+final class **Domain**Controller
+{
+    public function __construct(
+        // 在此注入 Application Service
+    ) {}
+
+    public function index(Request $request): Response
+    {
+        return Inertia::render('**BoundedContext**/**Domain**/Index', [
+            '**domain_lc**s' => [],
+        ]);
+    }
+
+    public function create(): Response
+    {
+        return Inertia::render('**BoundedContext**/**Domain**/Create');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        // 呼叫 Application 執行建立邏輯
+
+        return to_route('**domain_lc**s.index')
+            ->with('success', '**Domain** 建立成功。');
+    }
+
+    public function show(string $**domain_lc**Id): Response
+    {
+        return Inertia::render('**BoundedContext**/**Domain**/Show', [
+            '**domain_lc**' => [
+                'id' => $**domain_lc**Id,
+            ],
+        ]);
+    }
+
+    public function edit(string $**domain_lc**Id): Response
+    {
+        return Inertia::render('**BoundedContext**/**Domain**/Edit', [
+            '**domain_lc**' => [
+                'id' => $**domain_lc**Id,
+            ],
+        ]);
+    }
+
+    public function update(Request $request, string $**domain_lc**Id): RedirectResponse
+    {
+        // 呼叫 Application 執行更新邏輯
+
+        return to_route('**domain_lc**s.show', $**domain_lc**Id)
+            ->with('success', '**Domain** 更新成功。');
+    }
+
+    public function destroy(string $**domain_lc**Id): RedirectResponse
+    {
+        // 呼叫 Application 執行刪除邏輯
+
+        return to_route('**domain_lc**s.index')
+            ->with('success', '**Domain** 已刪除。');
+    }
+}

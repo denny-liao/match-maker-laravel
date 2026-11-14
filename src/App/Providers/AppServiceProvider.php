@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Providers;
+namespace Src\App\Providers;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Src\App\Console\Commands\CreateController;
+use Src\App\Console\Commands\MakeSrcCommand;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $commands = [
+            'command.command.make'    => MakeSrcCommand::class,
+            'command.controller.make' => CreateController::class,
+        ];
+
+        foreach ($commands as $abstract => $class) {
+            $this->app->extend($abstract, fn($command, $app) => new $class($app['files']));
+        }
     }
 
     /**
@@ -37,14 +46,15 @@ class AppServiceProvider extends ServiceProvider
             app()->isProduction(),
         );
 
-        Password::defaults(fn (): ?Password => app()->isProduction()
-            ? Password::min(12)
+        Password::defaults(
+            fn(): ?Password => app()->isProduction()
+                ? Password::min(12)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
                 ->symbols()
                 ->uncompromised()
-            : null,
+                : null,
         );
     }
 }

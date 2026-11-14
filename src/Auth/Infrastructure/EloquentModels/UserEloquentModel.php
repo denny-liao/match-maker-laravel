@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace Src\Auth\Infrastructure\EloquentModels;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,11 +24,17 @@ use Illuminate\Support\Carbon;
  */
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+#[UseFactory(UserFactory::class)]
+class UserEloquentModel extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+     /**
+     * 明確指定對應的資料表名稱
+     */
+    protected $table = 'users';
+    
     /**
      * Get the attributes that should be cast.
      *
