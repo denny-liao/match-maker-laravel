@@ -1,0 +1,33 @@
+.git
+.github
+.gitignore
+.gitattributes
+
+# 依賴與編譯產物（由 Dockerfile 內部重新產生）
+node_modules
+vendor
+public/build
+public/hot
+
+# 本機環境與資料庫檔案
+.env
+.env.*
+!.env.example
+database/*.sqlite
+database/*.sqlite-journal
+
+# 暫存與日誌
+storage/*.key
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+bootstrap/cache/*
+
+# IDE 與作業系統雜項
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+npm-debug.log
+yarn-error.log
