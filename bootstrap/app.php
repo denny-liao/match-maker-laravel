@@ -23,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         __DIR__ . '/../src/App/Console/Commands',
     ])
     ->withMiddleware(function (Middleware $middleware): void {
+         // 信任 Render 的反向代理，讓 Laravel 正確識別 HTTPS
+        $middleware->trustProxies(at: '*');
         $middleware->web(append: [
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,

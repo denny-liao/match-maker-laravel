@@ -5,6 +5,7 @@ namespace Src\App\Providers;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use Src\App\Console\Commands\CreateController;
@@ -32,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+         // 在正式環境強制所有路由與 CSS/JS 資源使用 HTTPS
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
         $this->configureDefaults();
     }
 
