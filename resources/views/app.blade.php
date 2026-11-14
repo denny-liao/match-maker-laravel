@@ -7,7 +7,15 @@
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
+        <script>
+            (function() {
+                const theme = localStorage.getItem('theme') || 'system';
+                const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                if (isDark) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
         @fonts
 
         @viteReactRefresh
@@ -15,6 +23,7 @@
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>
+       
     </head>
     <body class="font-sans antialiased">
         <x-inertia::app />

@@ -1,0 +1,54 @@
+import { Head } from '@inertiajs/react';
+import type { CommentProps } from '@/features/Comments';
+import { Fragment } from 'react';
+import TheComment from '@/features/Comments/src/TheComment';
+import CommentTextarea from '@/features/Comments/src/CommentTextarea';
+// 未來開啟編輯、刪除功能時可取消註解以下圖示
+// import { Pencil, Trash2 } from 'lucide-react';
+
+
+
+export default function Comment({ comments = [] }: CommentProps) {
+    
+    return (
+        <>
+            <Head title="首頁動態" />
+
+            <div className="mx-auto max-w-3xl space-y-6">
+                {/* 頁面標題區塊 */}
+                <div className="rounded-xl border bg-card p-6 shadow-xs">
+                    <h1 className="text-2xl font-bold tracking-tight">歡迎來到留言區</h1>
+                    <p className="mt-1.5 text-sm text-muted-foreground">
+                        在下方分享你的想法，所有動態都會即時顯示在公開留言板中。
+                    </p>
+                </div>
+
+              <CommentTextarea />
+
+                {/* 留言列表區塊（由新到舊） */}
+                <div className="space-y-4">
+                    {comments.length === 0 ? (
+                        <div className="rounded-xl border border-dashed p-10 text-center text-sm text-muted-foreground">
+                            目前還沒有任何留言，成為第一個發言的人吧！
+                        </div>
+                    ) : (
+                        comments.map((comment) => {
+                            // 組合名稱與 ID 作為隨機種子，產生專屬的 Laravel 匿名頭像
+                            const avatarSeed = encodeURIComponent(
+                                `${comment.authorName}-${comment.id}`
+                            );
+                            comment.avatarUrl = `https://avatars.laravel.cloud/{avatarSeed}`;
+
+                            return (
+                              <Fragment key={comment.id}>
+                                <TheComment comment={comment} />
+                              </Fragment>
+                            );
+                        })
+                    )}
+                </div>
+            </div>
+        </>
+    );
+}
+
