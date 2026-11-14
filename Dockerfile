@@ -37,6 +37,10 @@ RUN npm run build
 # ==========================================
 FROM dunglas/frankenphp:1-php8.4-alpine
 
+# 移除 FrankenPHP 執行檔的 Linux Capabilities，避免在 Render 觸發 Operation not permitted
+RUN apk add --no-cache libcap \
+    && setcap -r /usr/local/bin/frankenphp
+
 # 安裝 Laravel 與 PostgreSQL 所需的 PHP 擴充套件
 RUN install-php-extensions \
     pdo_pgsql \
