@@ -14,19 +14,22 @@ RUN composer install \
     --optimize-autoloader
 
 # ==========================================
-# 階段二：編譯前端資源 (React + Vite + Tailwind v4)
+# 階段二：編譯前端資源 (支援 Laravel Wayfinder)
 # ==========================================
-FROM node:22-alpine AS node-builder
+FROM dunglas/frankenphp:1-php8.4-alpine AS node-builder
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
+# 在 PHP 環境中安裝 Node.js 與 npm
+RUN apk add --no-cache nodejs npm
+
+# 複製專案程式碼與階段一的 vendor（Wayfinder 執行 artisan 指令需要它）
+COPY . .
+COPY --from=composer-builder /app/vendor ./vendor
+
+# 產生一個暫時的 .env 供 artisan 指令讀取（避免部分套件在 build 期報錯）
+RUN cp .env.example .env 2>/dev/null || touch .env
+
 RUN npm ci
-
-# 複製前端編譯所需檔案（若有用到 Wayfinder/Ziggy 需一併帶入）
-COPY vite.config.* tsconfig.json* components.json* ./
-COPY resources ./resources
-COPY public ./public
-
 RUN npm run build
 
 # ==========================================
