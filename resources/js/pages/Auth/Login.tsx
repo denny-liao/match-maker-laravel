@@ -76,14 +76,14 @@ export default function Login({ status, canResetPassword = false }: LoginProps) 
                             <div className="space-y-1.5">
                                 <div className="flex items-center justify-between">
                                     <Label htmlFor="password">密碼</Label>
-                                    {canResetPassword && (
+                                    {/* {canResetPassword && (
                                         <Link
                                             href="/forgot-password"
                                             className="text-xs text-muted-foreground underline-offset-4 hover:text-primary hover:underline"
                                         >
                                             忘記密碼？
                                         </Link>
-                                    )}
+                                    )} */}
                                 </div>
                                 <Input
                                     id="password"
