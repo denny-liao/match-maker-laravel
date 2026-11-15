@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-#[Fillable(['message'])]
+#[Fillable(['message', 'author_id'])]
 #[UseFactory(CommentFactory::class)]
 class CommentEloquentModel extends Model
 {

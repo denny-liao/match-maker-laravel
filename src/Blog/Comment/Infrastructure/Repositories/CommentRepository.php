@@ -30,7 +30,7 @@ class CommentRepository implements CommentRepositoryInterface
         if ($comment->id === null) {
             // 情況一：全新留言，讓資料庫自動產生 ID
             $model = CommentEloquentModel::create([
-                'author_id' => $comment->authorId?->value,
+                'author_id' => $comment->authorId->value,
                 'message' => $comment->message,
             ]);
 

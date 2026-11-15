@@ -1,9 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CommentItem } from './types';
+import { getRandomAvatar } from '@/lib/utils';
 
 
 export default function TheComment({ comment } : {comment: CommentItem}) {
-
     return (
         <div
             className="flex gap-4 rounded-xl border bg-card p-5 shadow-xs transition-all hover:bg-accent/20"
@@ -11,7 +11,7 @@ export default function TheComment({ comment } : {comment: CommentItem}) {
             {/* 匿名頭像 */}
             <Avatar className="size-10 shrink-0 border">
                 <AvatarImage
-                    src={comment.avatarUrl}
+                    src={getRandomAvatar(comment.authorName)}
                     alt={comment.authorName}
                 />
                 <AvatarFallback>

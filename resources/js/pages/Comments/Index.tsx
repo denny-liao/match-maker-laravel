@@ -3,7 +3,7 @@ import type { CommentProps } from '@/features/Comments';
 import { Fragment } from 'react';
 import TheComment from '@/features/Comments/src/TheComment';
 import CommentTextarea from '@/features/Comments/src/CommentTextarea';
-import { getRandomAvatar } from '@/lib/utils';
+
 // 未來開啟編輯、刪除功能時可取消註解以下圖示
 // import { Pencil, Trash2 } from 'lucide-react';
 
@@ -34,7 +34,6 @@ export default function Comment({ comments = [] }: CommentProps) {
                         </div>
                     ) : (
                         comments.map((comment) => {
-                            comment.avatarUrl = getRandomAvatar(comment.authorName)
                             return (
                               <Fragment key={comment.id}>
                                 <TheComment comment={comment} />

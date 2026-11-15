@@ -10,14 +10,14 @@ use Src\Blog\Comment\Domain\ValueObjects\AuthorId;
 final readonly class PostCommentHandler
 {
     public function __construct(
-        private CommentRepositoryInterface $commentRepository,
+        private readonly CommentRepositoryInterface $commentRepository,
     ) {}
 
     public function handle(PostCommentCommand $command): Comment
     {
        // 1. 建立尚未有 ID 的新聚合根
         $comment = Comment::create(
-            authorId: $command->operatorId ? new AuthorId($command->operatorId) : null,
+            authorId: $command->operatorId,
             message: $command->message,
         );
 

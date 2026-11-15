@@ -10,16 +10,16 @@ final class Comment extends AggregateRoot
 
     public function __construct(
         public ?int $id,
-        public readonly ?AuthorId $authorId,
+        public readonly AuthorId $authorId,
         public string $message,
     ) {}
 
     // 專門用來「建立全新留言」的命名建構子（此時還沒有 ID）
-    public static function create(?AuthorId $authorId, string $message): self
+    public static function create(int $authorId, string $message): self
     {
         $comment = new self(
             id: null,
-            authorId: $authorId,
+            authorId: new AuthorId($authorId),
             message: $message,
         );
 
