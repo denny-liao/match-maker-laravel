@@ -1,3 +1,5 @@
-export * from './src/TheComment'
+import CommentTextarea from './src/CommentTextarea'
+import TheComment from './src/TheComment'
 
-export * from './src/types'
+export {TheComment, CommentTextarea}
+export type * from './src/types'
