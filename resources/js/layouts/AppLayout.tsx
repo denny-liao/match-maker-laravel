@@ -24,10 +24,9 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
-    const { url, props, flash } = usePage<{
+    const { url,  flash } = usePage<{
         auth?: { user?: User }
     }>()
-    const user = props.auth?.user
 
     return (
         <>
@@ -55,7 +54,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
                         {/* 顏色主題 */}
                         <ThemeToggle />
                         {/* 登入、註冊 */}
-                        <AuthHeader user={user} />
+                        <AuthHeader />
                     </div>
                 </header>
 

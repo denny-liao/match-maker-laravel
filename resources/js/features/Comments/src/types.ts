@@ -3,7 +3,7 @@ export interface CommentItem {
     message: string;
     authorName: string;
     createdAt: string;
-    avatarUrl: string;
+    avatar: string;
 }
 
 export interface CommentProps {

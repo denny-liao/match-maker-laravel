@@ -9,6 +9,6 @@ final readonly class CommentItemDto
         public string $message,
         public string $authorName,
         public string $createdAt,
-        public string $avatarUrl = ''
+        public string $avatar = ''
     ) {}
 }

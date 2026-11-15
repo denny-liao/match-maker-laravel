@@ -17,15 +17,15 @@ import {
     DropdownMenuGroup
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import type { User as UserType } from "@/types"
 import { getRandomAvatar } from "@/lib/utils"
+import { useAuth } from "@/hooks/useAuth"
 
 
-export default function AuthHeader({ user }: { user?: UserType }) {
-
+export default function AuthHeader() {
+    const { user, isAuthenticated } = useAuth()
     return (
         <>
-            {user ? (
+            {isAuthenticated ? (
                 <DropdownMenu>
                     <DropdownMenuTrigger
                         render={
