@@ -27,8 +27,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
     const { url, props, flash } = usePage<{
         auth?: { user?: User }
     }>()
-    // const user = props.auth?.user
-
+    const user = props.auth?.user
 
     return (
         <>
@@ -55,8 +54,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     <div className="flex items-center gap-2">
                         {/* 顏色主題 */}
                         <ThemeToggle />
-                        {/* TODO: 登入、註冊 */}
-                        {/* <AuthHeader user={user} /> */}
+                        {/* 登入、註冊 */}
+                        <AuthHeader user={user} />
                     </div>
                 </header>
 

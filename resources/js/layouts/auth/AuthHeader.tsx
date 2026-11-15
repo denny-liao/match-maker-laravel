@@ -17,9 +17,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import type { User as UserType } from "@/types"
+import { getRandomAvatar } from "@/lib/utils"
 
 
-export default function AuthHeader({ user }: { user?: UserType}) {
+export default function AuthHeader({ user }: { user?: UserType }) {
 
     return (
         <>
@@ -34,7 +35,7 @@ export default function AuthHeader({ user }: { user?: UserType}) {
                         }
                     >
                         <Avatar className="h-9 w-9">
-                            <AvatarImage src={user.avatar} alt={user.name} />
+                            <AvatarImage src={getRandomAvatar(user.name)} alt={user.name} />
                             <AvatarFallback>
                                 {user.name.charAt(0).toUpperCase()}
                             </AvatarFallback>
