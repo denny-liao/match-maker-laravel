@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [CommentController::class, 'index']);
 
-Route::post('/comments', [CommentController::class, 'store']);
-// {comment}: route model binding，就是 id 主鍵
-Route::get('/comments/{comment}/edit', [CommentController::class, 'edit']);
-Route::put('/comments/{comment}', [CommentController::class, 'update']);
-Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
-
+// Protected routes
+Route::middleware('auth')->group(function () {
+    // 簡寫 + only 白名單 (用到的功能)，會生成如上面固定 URL 的路由
+    Route::resource('chirps', CommentController::class)
+        ->only(['store', 'edit', 'update', 'destroy']);
+});
