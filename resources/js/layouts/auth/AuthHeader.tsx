@@ -14,6 +14,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
+    DropdownMenuGroup
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import type { User as UserType } from "@/types"
@@ -43,48 +44,57 @@ export default function AuthHeader({ user }: { user?: UserType }) {
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent className="w-56" align="end">
-                        <DropdownMenuLabel className="font-normal">
-                            <div className="flex flex-col space-y-1">
-                                <p className="text-sm font-medium leading-none">
-                                    {user.name}
-                                </p>
-                                <p className="text-xs leading-none text-muted-foreground">
-                                    {user.email}
-                                </p>
-                            </div>
-                        </DropdownMenuLabel>
+                        <DropdownMenuGroup>
+                            <DropdownMenuLabel className="font-normal">
+                                <div className="flex flex-col space-y-1">
+                                    <p className="text-sm font-medium leading-none">
+                                        {user.name}
+                                    </p>
+                                    <p className="text-xs leading-none text-muted-foreground">
+                                        {user.email}
+                                    </p>
+                                </div>
+                            </DropdownMenuLabel>
+                        </DropdownMenuGroup>
                         <DropdownMenuSeparator />
 
                         {/* Base UI 的 DropdownMenuItem 使用 render 屬性來渲染 Inertia Link */}
-                        <DropdownMenuItem
-                            render={<Link href="/profile" className="cursor-pointer" />}
-                        >
-                            <User className="mr-2 h-4 w-4" />
-                            <span>個人主頁</span>
-                        </DropdownMenuItem>
+                        {/* <DropdownMenuGroup>
+                            <DropdownMenuItem
+                                render={<Link href="/profile" className="cursor-pointer" />}
 
-                        <DropdownMenuItem
-                            render={<Link href="/settings" className="cursor-pointer" />}
-                        >
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>設定</span>
-                        </DropdownMenuItem>
+                            >
+                                <User className="mr-2 h-4 w-4" />
+                                <span>個人主頁</span>
+                            </DropdownMenuItem>
 
-                        <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                render={<Link href="/settings" className="cursor-pointer" />}
 
-                        <DropdownMenuItem
-                            render={
-                                <Link
-                                    href="/logout"
-                                    method="post"
-                                    as="button"
-                                    className="w-full cursor-pointer text-destructive focus:text-destructive"
-                                />
-                            }
-                        >
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>登出</span>
-                        </DropdownMenuItem>
+                            >
+                                <Settings className="mr-2 h-4 w-4" />
+                                <span>設定</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator /> */}
+
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem
+                                render={
+                                    <Link
+                                        href="/logout"
+                                        method="post"
+                                        as="button"
+                                        className="w-full cursor-pointer text-destructive focus:text-destructive"
+                                    />
+                                }
+                                // inertia 屬性 as="button" => 原生按鈕
+                                nativeButton={true}
+                            >
+                                <LogOut className="mr-2 h-4 w-4" />
+                                <span>登出</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
             ) : (
