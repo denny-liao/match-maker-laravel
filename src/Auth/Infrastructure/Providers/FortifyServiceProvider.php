@@ -2,10 +2,10 @@
 
 namespace Src\Auth\Infrastructure\Providers;
 
-use App\Actions\Fortify\CreateNewUser;
-use App\Actions\Fortify\ResetUserPassword;
-use App\Actions\Fortify\UpdateUserPassword;
-use App\Actions\Fortify\UpdateUserProfileInformation;
+use Src\Auth\Application\Services\CreateNewUser;
+use Src\Auth\Application\Services\ResetUserPassword;
+use Src\Auth\Application\Services\UpdateUserPassword;
+use Src\Auth\Application\Services\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
