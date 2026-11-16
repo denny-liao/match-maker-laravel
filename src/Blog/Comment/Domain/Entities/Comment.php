@@ -36,4 +36,10 @@ final class Comment extends AggregateRoot
         // 更新留言內容
         $this->message = $message;
     }
+
+    public function ensureCanBeDeletedBy(int $operatorId) {
+        if ($this->authorId->value !== $operatorId) {
+            throw new \DomainException('Only the author can delete this comment.');
+        }
+    }
 }

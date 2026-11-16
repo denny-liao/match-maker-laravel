@@ -8,8 +8,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Src\Blog\Comment\Application\CommandHandlers\DeleteCommentHandler;
 use Src\Blog\Comment\Application\CommandHandlers\EditCommentHandler;
 use Src\Blog\Comment\Application\CommandHandlers\PostCommentHandler;
+use Src\Blog\Comment\Application\Commands\DeleteCommentCommand;
 use Src\Blog\Comment\Application\Commands\EditCommentCommand;
 use Src\Blog\Comment\Application\Commands\PostCommentCommand;
 use Src\Blog\Comment\Application\Queries\FindCommentByIdQuery;
@@ -22,7 +24,7 @@ enum Page: string
     case CommentIndex = 'Comments/Index';
     case CommentEdit = 'Comments/Edit';
 }
-enum Route: string 
+enum Route: string
 {
     case Home = 'home';
 }
@@ -34,7 +36,8 @@ final class CommentController extends Controller
         private readonly ListCommentsByQuery $listCommentsHandler,
         private readonly FindCommentByIdQuery $findCommentByIdQuery,
         private readonly PostCommentHandler $postCommentHandler,
-        private readonly EditCommentHandler $editCommandHandler
+        private readonly EditCommentHandler $editCommandHandler,
+        private readonly DeleteCommentHandler $deleteCommandHandler
     ) {}
 
     public function index(): Response
@@ -50,7 +53,7 @@ final class CommentController extends Controller
     public function store(CommentRequest $request): RedirectResponse
     {
         // 呼叫 Application 執行建立邏輯
-        $command = new PostCommentCommand(auth()->user()->id, $request->message);
+        $command = new PostCommentCommand($request->user()->id, $request->message);
 
         $this->postCommentHandler->handle($command);
         return  Inertia::flash('toast', [
@@ -76,7 +79,7 @@ final class CommentController extends Controller
     public function update(CommentRequest $request, string $commentId): RedirectResponse
     {
         // 呼叫 Application 執行更新邏輯
-        $command = new EditCommentCommand((int) $commentId, auth()->user()->id, $request->message);
+        $command = new EditCommentCommand((int) $commentId, $request->user()->id, $request->message);
         $this->editCommandHandler->handle($command);
 
         Inertia::flash('toast', [
@@ -87,11 +90,18 @@ final class CommentController extends Controller
         return to_route(Route::Home);
     }
 
-    public function destroy(string $commentId) //: RedirectResponse
+    public function destroy(Request $request, int $commentId): RedirectResponse
     {
         // 呼叫 Application 執行刪除邏輯
+        $command = new DeleteCommentCommand($commentId, $request->user()->id);
 
-        // return to_route('comments.index')
-        //     ->with('success', 'Comment 已刪除。');
+        $this->deleteCommandHandler->handle($command);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'title' => 'success',
+            'description' => '留言刪除成功!'
+        ]);
+        return to_route(Route::Home);
     }
 }

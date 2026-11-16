@@ -63,10 +63,10 @@ export default function TheComment({ comment }: { comment: CommentItem }) {
                                 <span className="sr-only">編輯</span>
                             </Link>
                             {/* 刪除按鈕：外部傳入 DELETE 路由事件 */}
-                            {/* <ConfirmDialog
+                            <ConfirmDialog
                                 type={DialogEnum.DELETE}
                                 onConfirm={() => handleDelete(comment.id)}
-                            /> */}
+                            />
                         </div>}
                 </div>
 
