@@ -20,7 +20,7 @@ export default function AppSidebarDesktop({ navItems, url }: { navItems: NavItem
                     {navItems.map((item) => {
                         const Icon = item.icon
                         const isActive = url === item.href
-
+                        
                         return (
                             <Link
                                 key={item.href}

@@ -24,7 +24,7 @@ final readonly class ListCommentsByQuery
 
         // 直接跨表 JOIN 查詢，不載入任何聚合根，效能極高
         $stmt = $this->db->prepare('
-            SELECT c.id, c.message, c.created_at, u.name AS author_name
+            SELECT c.id, c.message, c.created_at, c.author_id, u.name AS author_name
             FROM comments c
             LEFT JOIN users u ON c.author_id = u.id
             ORDER BY c.created_at DESC
@@ -39,6 +39,7 @@ final readonly class ListCommentsByQuery
             fn(array $row) => new CommentItemDto(
                 id: $row['id'],
                 message: $row['message'],
+                authorId: $row['author_id'],
                 authorName: $row['author_name'] ?? '未知使用者',
                 createdAt: Carbon::parse($row['created_at'])->diffForHumans(),
             ),

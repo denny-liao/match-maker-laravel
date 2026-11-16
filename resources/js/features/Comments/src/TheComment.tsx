@@ -1,9 +1,24 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CommentItem } from './types';
-import { getRandomAvatar } from '@/lib/utils';
+import { cn, getRandomAvatar } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Pencil, Trash2 } from 'lucide-react';
+import { ConfirmDialog } from '@/components/Dialog';
+import { DialogEnum } from '@/enums/appEnum';
+import { Link, router } from '@inertiajs/react';
+import { useAuth } from '@/hooks/useAuth';
 
 
-export default function TheComment({ comment } : {comment: CommentItem}) {
+export default function TheComment({ comment }: { comment: CommentItem }) {
+    const { user, isAuthenticated } = useAuth()
+
+
+    // 刪除處理函式
+    const handleDelete = (commentId: number) => {
+        router.delete(`/comments/${commentId}`, {
+            preserveScroll: true,
+        });
+    };
     return (
         <div
             className="flex gap-4 rounded-xl border bg-card p-5 shadow-xs transition-all hover:bg-accent/20"
@@ -34,37 +49,32 @@ export default function TheComment({ comment } : {comment: CommentItem}) {
                         </span>
                     </div>
 
-                    {/* 編輯與刪除功能按鈕（已先隱藏/註解，未來可依權限開啟） */}
-                    {/*
-                                            <div className="flex items-center gap-1">
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="size-7 text-muted-foreground hover:text-foreground"
-                                                    onClick={() => console.log('編輯', comment.id)}
-                                                >
-                                                    <Pencil className="size-3.5" />
-                                                    <span className="sr-only">編輯</span>
-                                                </Button>
-                                                <Button
-                                                    type="button"
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="size-7 text-muted-foreground hover:text-destructive"
-                                                    onClick={() => console.log('刪除', comment.id)}
-                                                >
-                                                    <Trash2 className="size-3.5" />
-                                                    <span className="sr-only">刪除</span>
-                                                </Button>
-                                            </div>
-                                            */}
+                    {/* 編輯與刪除功能按鈕 */}
+                    {isAuthenticated && user.id === comment.authorId
+                        && <div className="flex items-center gap-1">
+                            <Link
+                                href={`/comments/${comment.id}/edit`}
+                                className={cn(
+                                    buttonVariants({ variant: "ghost", size: "icon" }),
+                                    "size-7 text-muted-foreground hover:text-foreground"
+                                )}
+                            >
+                                <Pencil className="size-3.5" />
+                                <span className="sr-only">編輯</span>
+                            </Link>
+                            {/* 刪除按鈕：外部傳入 DELETE 路由事件 */}
+                            {/* <ConfirmDialog
+                                type={DialogEnum.DELETE}
+                                onConfirm={() => handleDelete(comment.id)}
+                            /> */}
+                        </div>}
                 </div>
 
                 <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground/90">
                     {comment.message}
                 </p>
             </div>
+
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { CommentTextarea, TheComment, type CommentProps } from '@/features/Comments';
+import { PostCommentTextarea, TheComment, type CommentProps } from '@/features/Comments';
 import { Fragment } from 'react';
 
 // 未來開啟編輯、刪除功能時可取消註解以下圖示
@@ -22,7 +22,7 @@ export default function Comment({ comments = [] }: CommentProps) {
                     </p>
                 </div>
 
-              <CommentTextarea />
+              <PostCommentTextarea />
 
                 {/* 留言列表區塊（由新到舊） */}
                 <div className="space-y-4">

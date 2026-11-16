@@ -22,7 +22,7 @@ class CommentRepository implements CommentRepositoryInterface
         return new Comment(
             id: $commentEloquentModel->id,
             message: $commentEloquentModel->message,
-            authorId: new AuthorId($commentEloquentModel->user_id)
+            authorId: new AuthorId($commentEloquentModel->author_id)
         );
     }
     public function save(Comment $comment): ?Comment

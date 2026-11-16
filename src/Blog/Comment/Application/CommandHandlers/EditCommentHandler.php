@@ -22,7 +22,7 @@ final readonly class EditCommentHandler
         // 執行領域行為（保護業務規則）
         $comment->editMessage(
             $command->message,
-            new AuthorId($command->operatorId)
+            $command->operatorId
         );
 
         // 持久化變更
