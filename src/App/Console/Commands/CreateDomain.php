@@ -43,7 +43,7 @@ class CreateDomain extends Command
         foreach ($domainStructure as $domainDirectory) {
             $path = $basePath . '/Domain/' . $domainDirectory;
             File::makeDirectory($path, 0755, true);
-            if ($domainDirectory === 'Model') {
+            if ($domainDirectory === 'Entities') {
                 $stub = File::get('./stubs/DomainModel.stub');
                 $stubReplace = [
                     '**BoundedContext**' => $boundedContext,
