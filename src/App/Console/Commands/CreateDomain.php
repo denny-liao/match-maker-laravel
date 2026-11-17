@@ -26,6 +26,7 @@ class CreateDomain extends Command
             'Commands',
             'CommandHandlers',
             'Queries',
+            'Exceptions'
         ];
         foreach ($applicationStructure as $applicationDirectory) {
             File::makeDirectory($basePath . '/Application/' . $applicationDirectory, 0755, true);
@@ -70,7 +71,7 @@ class CreateDomain extends Command
         $presentationStructure = [
             'Policies',
             'Controllers',
-            'Middleware',
+            // 'Middleware',
             'Requests',
         ];
         foreach ($presentationStructure as $presentationDirectory) {
