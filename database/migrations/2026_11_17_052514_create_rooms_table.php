@@ -22,13 +22,14 @@ return new class extends Migration
             // 房間狀態：waiting(等待中), playing(進行中), closed(已關閉)
             $table->string('status', 20)->default('waiting')->index();
             // 人數上限
-            $table->unsignedTinyInteger('max_players')->default(4);
+            $table->unsignedTinyInteger('max_players')->default(20);
             // 私人房設定與密碼（無密碼則為 null）
             $table->boolean('is_private')->default(false);
             $table->string('password')->nullable();
             // 遊戲/活動實際開始與結束時間
             $table->timestamp('started_at')->nullable();
             $table->timestamp('closed_at')->nullable();
+            $table->string('closure_reason', 30)->nullable();
             $table->timestamps();
         });
     }

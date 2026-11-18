@@ -13,6 +13,7 @@
         "inertiajs/inertia-laravel": "^3.0",
         "laravel/fortify": "^1.42",
         "laravel/framework": "^13.17",
+        "laravel/reverb": "^1.13",
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14"
     },
@@ -29,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Src\\": "src/" ,
+            "Src\\": "src/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }

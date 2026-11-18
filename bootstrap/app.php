@@ -1,18 +1,19 @@
 <?php
 
-use Src\Common\Presentation\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Src\Common\Presentation\Middleware\HandleInertiaRequests;
+use Src\Matchmaking\Room\Domain\Exceptions\RoomRuleException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         channels: __DIR__.'/../routes/channels.php',
-        web: __DIR__ . '/../routes/web.php',
-        commands: __DIR__ . '/../routes/console.php',
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
             foreach (glob(base_path('src/*/*/Presentation/routes.php')) as $file) {
@@ -21,10 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withCommands([
-        __DIR__ . '/../src/App/Console/Commands',
+        __DIR__.'/../src/App/Console/Commands',
     ])
     ->withMiddleware(function (Middleware $middleware): void {
-         // 信任 Render 的反向代理，讓 Laravel 正確識別 HTTPS
+        // 信任 Render 的反向代理，讓 Laravel 正確識別 HTTPS
         $middleware->trustProxies(at: '*');
         $middleware->web(append: [
             HandleInertiaRequests::class,
@@ -33,7 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
-            fn(Request $request) => $request->is('api/*') || $request->expectsJson(),
+            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
 
         $exceptions->render(function (Throwable $e, Request $request) {
@@ -41,7 +42,10 @@ return Application::configure(basePath: dirname(__DIR__))
             // logger()->error($e->getMessage());
 
             // 如果想直接在瀏覽器彈窗看到完整的 Exception 細節：
-            // dd($e->getMessage(), $e); 
+            // dd($e->getMessage(), $e);
+        });
+        $exceptions->render(function (RoomRuleException $exception) {
+            return back()->withErrors(['room' => $exception->getMessage()]);
         });
     })->create()
-    ->useAppPath(dirname(__DIR__) . '/src');
+    ->useAppPath(dirname(__DIR__).'/src');

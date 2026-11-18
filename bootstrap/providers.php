@@ -1,9 +1,15 @@
 <?php
 
+use Src\App\Providers\AppServiceProvider;
+use Src\Auth\Infrastructure\Providers\FortifyServiceProvider;
+use Src\Auth\Infrastructure\Providers\UserServiceProvider;
+use Src\Blog\Comment\Infrastructure\Providers\CommentServiceProvider;
+use Src\Matchmaking\Room\Infrastructure\Providers\RoomServiceProvider;
 
 return [
-    Src\Auth\Infrastructure\Providers\FortifyServiceProvider::class,
-    Src\App\Providers\AppServiceProvider::class,
-    Src\Auth\Infrastructure\Providers\UserServiceProvider::class,
-    Src\Blog\Comment\Infrastructure\Providers\CommentServiceProvider::class,
+    FortifyServiceProvider::class,
+    AppServiceProvider::class,
+    UserServiceProvider::class,
+    CommentServiceProvider::class,
+    RoomServiceProvider::class,
 ];

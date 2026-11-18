@@ -19,12 +19,12 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $commands = [
-            'command.command.make'    => MakeSrcCommand::class,
+            'command.command.make' => MakeSrcCommand::class,
             'command.controller.make' => CreateController::class,
         ];
 
         foreach ($commands as $abstract => $class) {
-            $this->app->extend($abstract, fn($command, $app) => new $class($app['files']));
+            $this->app->extend($abstract, fn ($command, $app) => new $class($app['files']));
         }
     }
 
@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         // 在正式環境強制所有路由與 CSS/JS 資源使用 HTTPS
+        // 在正式環境強制所有路由與 CSS/JS 資源使用 HTTPS
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
@@ -52,13 +52,13 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Password::defaults(
-            fn(): ?Password => app()->isProduction()
+            fn (): ?Password => app()->isProduction()
                 ? Password::min(12)
-                ->mixedCase()
-                ->letters()
-                ->numbers()
-                ->symbols()
-                ->uncompromised()
+                    ->mixedCase()
+                    ->letters()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
                 : null,
         );
     }
