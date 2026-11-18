@@ -2,6 +2,7 @@ import React from "react"
 import { Head, usePage } from "@inertiajs/react"
 import {
     Home,
+    UsersRound,
 } from "lucide-react"
 
 import Title from "./AppTitle"
@@ -15,6 +16,7 @@ import { FlashToaster } from "@/components/FlashToaster"
 
 const navItems = [
     { title: "首頁動態", href: "/", icon: Home },
+    { title: "配對大廳", href: "/matchmaking", icon: UsersRound },
     // { title: "探索發現", href: "/explore", icon: Compass },
     // { title: "個人資訊", href: "/settings", icon: UserCircle },
 ]

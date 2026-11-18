@@ -4,7 +4,7 @@ import type { NavItem } from "@/types";
 
 
 
-export default function AppSidebarDesktop({ navItems, url }: { navItems: NavItem[], url: String }) {
+export default function AppSidebarDesktop({ navItems, url }: { navItems: NavItem[], url: string }) {
     const [isHovered, setIsHovered] = useState(false)
 
     return (
@@ -19,7 +19,7 @@ export default function AppSidebarDesktop({ navItems, url }: { navItems: NavItem
                 <nav className="flex flex-col gap-1.5 p-2.5">
                     {navItems.map((item) => {
                         const Icon = item.icon
-                        const isActive = url === item.href
+                        const isActive = url === item.href || (item.href !== "/" && url.startsWith(`${item.href}/`))
                         
                         return (
                             <Link

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react";
 import type { NavItem } from "@/types";
 
-export default function AppSidebarMobile({ navItems, url }:{ navItems: NavItem[], url: String}) {
+export default function AppSidebarMobile({ navItems, url }:{ navItems: NavItem[], url: string}) {
     const [mobileOpen, setMobileOpen] = useState(false)
 
     return (<>
@@ -40,7 +40,7 @@ export default function AppSidebarMobile({ navItems, url }:{ navItems: NavItem[]
                             <nav className="flex flex-col gap-1 p-3">
                                 {navItems.map((item) => {
                                     const Icon = item.icon
-                                    const isActive = url === item.href
+                                    const isActive = url === item.href || (item.href !== "/" && url.startsWith(`${item.href}/`))
                                     return (
                                         <Link
                                             key={item.href}
