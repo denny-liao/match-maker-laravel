@@ -9,7 +9,7 @@
 - 後端採 Laravel 13 單體架構、PHP 與 Composer；驗證使用 Laravel Fortify。
 - 前端使用 Inertia 3、React 19、TypeScript、Tailwind CSS 4 與 Vite Plus（Vite 生態系）。UI 優先沿用 Shadcn 元件與 Tailwind 樣式；Shadcn 設定位於 `components.json`，UI 元件位於 `resources/js/components/ui/`。
 - 部署以 `Dockerfile` 建置 FrankenPHP PHP 8.4 映像，並由 `start.sh` 執行 Laravel 快取、資料庫 migration 與 FrankenPHP 伺服器；部署目標為 Render，資料庫目標為 Supabase。
-- 部署映像使用 PHP 8.4，但 `composer.json` 目前宣告 `^8.3`。改動 PHP 版本需求時，請一併核對 Composer 約束、Dockerfile 與 CI。
+- Composer、GitHub Actions CI 與部署映像皆以 PHP 8.4 為最低版本；調整 PHP 版本需求時，請一併核對 Composer 約束、Dockerfile 與 CI。
 - 專案規劃的後端／前端測試框架為 Pest／Vitest；但目前 Composer 測試依賴與 `phpunit.xml` 設定的是 PHPUnit，`package.json` 也尚未設定 Vitest。新增測試或調整指令前，先以目前依賴與設定為準；不要假設 Pest 或 Vitest 已可執行。
 - `BROADCAST_CONNECTION` 在測試設定中為 `null`，`.env.example` 使用 `log`。新增 WebSocket 推播時，確認所需的廣播驅動、環境變數與部署服務已設定，不要把規劃中的即時功能視為已完成配置。
 
