@@ -45,10 +45,10 @@ return [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
             'client' => [
-                'key' => env('VITE_REVERB_APP_KEY', env('REVERB_APP_KEY')),
-                'host' => env('VITE_REVERB_HOST', env('REVERB_HOST')),
-                'port' => env('VITE_REVERB_PORT', env('REVERB_PORT')),
-                'scheme' => env('VITE_REVERB_SCHEME', env('REVERB_SCHEME')),
+                'key' => env('REVERB_APP_KEY'),
+                'host' => env('REVERB_HOST'),
+                'port' => env('REVERB_PORT', 443),
+                'scheme' => env('REVERB_SCHEME', 'https'),
             ],
         ],
 
