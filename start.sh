@@ -1,20 +1,6 @@
 #!/bin/sh
 set -e
 
-# Run this image as a separate Render Web Service with SERVICE_ROLE=reverb.
-if [ "${SERVICE_ROLE:-web}" = "reverb" ]; then
-    php artisan config:clear
-    php artisan config:cache
-    exec php artisan reverb:start \
-        --host=0.0.0.0 \
-        --port="${PORT:-10000}"
-fi
-
-if [ "${SERVICE_ROLE:-web}" != "web" ]; then
-    echo "Unsupported SERVICE_ROLE: ${SERVICE_ROLE}" >&2
-    exit 64
-fi
-
 echo "正在最佳化 Laravel 快取..."
 php artisan config:clear
 php artisan config:cache
@@ -28,23 +14,45 @@ echo "啟動 Laravel Queue Worker..."
 php artisan queue:work --sleep=1 --tries=3 --timeout=90 &
 QUEUE_WORKER_PID=$!
 
+echo "啟動 Laravel Reverb..."
+php artisan reverb:start \
+    --host=127.0.0.1 \
+    --port="${REVERB_SERVER_PORT:-8080}" &
+REVERB_PID=$!
+
 echo "啟動 FrankenPHP 伺服器於 Port ${PORT:-10000}..."
-frankenphp php-server \
-    --root=/app/public \
-    --listen=0.0.0.0:${PORT:-10000} &
+PORT="${PORT:-10000}" frankenphp run --config /app/Caddyfile &
 WEB_SERVER_PID=$!
 
 shutdown() {
-    kill "$QUEUE_WORKER_PID" "$WEB_SERVER_PID" 2>/dev/null || true
+    trap - TERM INT
+    kill "$QUEUE_WORKER_PID" "$REVERB_PID" "$WEB_SERVER_PID" 2>/dev/null || true
+    wait "$QUEUE_WORKER_PID" 2>/dev/null || true
+    wait "$REVERB_PID" 2>/dev/null || true
+    wait "$WEB_SERVER_PID" 2>/dev/null || true
 }
 
-trap shutdown TERM INT
+trap 'shutdown; exit 0' TERM INT
 
-if wait "$WEB_SERVER_PID"; then
-    STATUS=0
-else
-    STATUS=$?
-fi
-shutdown
-wait "$QUEUE_WORKER_PID" 2>/dev/null || true
-exit "$STATUS"
+check_process() {
+    PROCESS_PID=$1
+    PROCESS_NAME=$2
+
+    if ! kill -0 "$PROCESS_PID" 2>/dev/null; then
+        if wait "$PROCESS_PID"; then
+            STATUS=1
+        else
+            STATUS=$?
+        fi
+        echo "$PROCESS_NAME exited with status $STATUS." >&2
+        shutdown
+        exit "$STATUS"
+    fi
+}
+
+while :; do
+    check_process "$QUEUE_WORKER_PID" "Queue Worker"
+    check_process "$REVERB_PID" "Reverb"
+    check_process "$WEB_SERVER_PID" "FrankenPHP"
+    sleep 1
+done

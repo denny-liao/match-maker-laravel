@@ -63,14 +63,15 @@ npm run build
 
 ## Render 部署
 
-專案使用同一個 Docker image 建立一般 Web Service 與 Reverb Web Service：
+所有應用程式元件都在同一個 Render Web Service 與 Docker 容器內執行：
 
-- **一般 Web Service**：使用預設 `SERVICE_ROLE=web`，啟動 FrankenPHP、Queue Worker，並執行資料庫遷移。
-- **Reverb Web Service**：設定 `SERVICE_ROLE=reverb`，由 `start.sh` 使用 Render 注入的 `PORT` 啟動 Reverb。
+- FrankenPHP 提供 Laravel 網站並監聽 Render 注入的 `PORT`。
+- Queue Worker 與 Reverb 由 `start.sh` 一併啟動；Reverb 在容器內監聽 `127.0.0.1:8080`。
+- Caddy 將 `/app/*` 和 `/apps/*` 的 WebSocket/HTTP 流量代理至 Reverb，其餘請求交給 Laravel。
 
-兩個服務需設定一致的 `REVERB_APP_ID`、`REVERB_APP_KEY`、`REVERB_APP_SECRET`。一般 Web Service 的 `REVERB_HOST` 設為 Reverb 服務的公開主機名稱（不含協定）；公開連線通常使用 `REVERB_PORT=443` 與 `REVERB_SCHEME=https`。正式環境亦需設定 PostgreSQL/Supabase 連線、`APP_KEY`、`APP_URL` 及其他 Laravel 必要環境變數。
+Render 環境變數請設定 `REVERB_APP_ID`、`REVERB_APP_KEY`、`REVERB_APP_SECRET`，以及供瀏覽器連線使用的 `REVERB_HOST`（此 Web Service 的公開主機名稱，不含協定）、`REVERB_PORT=443`、`REVERB_SCHEME=https`。Laravel 往 Reverb 發送廣播會自動連到容器內的 `127.0.0.1` 與 `REVERB_SERVER_PORT`（預設 `8080`），不需額外設定內部連線變數。正式環境亦需設定 PostgreSQL/Supabase 連線、`APP_KEY`、`APP_URL` 及其他 Laravel 必要環境變數。
 
-快取使用 Redis。Render 上請建立 Redis 相容的 Key Value 服務，並在一般 Web Service 的環境變數中設定 `CACHE_STORE=redis`，再依該服務提供的連線資訊設定 `REDIS_URL`，或設定 `REDIS_HOST`、`REDIS_PORT`、`REDIS_USERNAME`、`REDIS_PASSWORD`。若服務要求 TLS，請使用服務提供的 TLS 連線 URL/設定。不要將連線密碼提交到版本控制。此設定只切換快取儲存；Queue 與 Session 仍使用各自的 `QUEUE_CONNECTION`、`SESSION_DRIVER` 設定。
+快取使用 Redis。Render 上請建立 Redis 相容的 Key Value 服務，並在 Web Service 的環境變數中設定 `CACHE_STORE=redis`，再依該服務提供的連線資訊設定 `REDIS_URL`，或設定 `REDIS_HOST`、`REDIS_PORT`、`REDIS_USERNAME`、`REDIS_PASSWORD`。若服務要求 TLS，請使用服務提供的 TLS 連線 URL/設定。不要將連線密碼提交到版本控制。此設定只切換快取儲存；Queue 與 Session 仍使用各自的 `QUEUE_CONNECTION`、`SESSION_DRIVER` 設定。
 
 瀏覽器端的 Reverb 連線資訊由 Blade 頁面在執行時提供。`REVERB_APP_KEY` 是客戶端連線識別值；`REVERB_APP_SECRET` 僅供伺服器使用，不可暴露給前端或提交至版本控制。
 

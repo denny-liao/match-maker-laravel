@@ -1,0 +1,13 @@
+{
+	frankenphp
+}
+
+:{$PORT} {
+	route {
+		@reverb path /app/* /apps/*
+		reverse_proxy @reverb 127.0.0.1:8080
+
+		root * /app/public
+		php_server
+	}
+}
