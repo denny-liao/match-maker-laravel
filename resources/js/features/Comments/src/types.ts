@@ -11,8 +11,7 @@ export interface CommentProps {
     comments?: CommentItem[];
 }
 
-
-export type Comment = Pick<CommentItem, 'id' | 'message'> 
+export type Comment = Pick<CommentItem, 'id' | 'message'>;
 
 export interface EditCommentProps {
     comment: Comment;

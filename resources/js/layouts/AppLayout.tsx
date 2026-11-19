@@ -1,34 +1,31 @@
-import React from "react"
-import { Head, usePage } from "@inertiajs/react"
-import {
-    Home,
-    UsersRound,
-} from "lucide-react"
+import React from 'react';
+import { Head, usePage } from '@inertiajs/react';
+import { Home, UsersRound } from 'lucide-react';
 
-import Title from "./AppTitle"
-import AppSidebarMobile from "./app/AppSidebarMobile"
-import { ThemeToggle } from "@/components/ThemeToggle"
-import AuthHeader from "./auth/AuthHeader"
-import type { User } from "@/types"
-import AppSidebarDesktop from "./app/AppSidebarDesktop"
-import { Toaster } from "@/components/ui/toast"
-import { FlashToaster } from "@/components/FlashToaster"
+import Title from './AppTitle';
+import AppSidebarMobile from './app/AppSidebarMobile';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import AuthHeader from './auth/AuthHeader';
+import type { User } from '@/types';
+import AppSidebarDesktop from './app/AppSidebarDesktop';
+import { Toaster } from '@/components/ui/toast';
+import { FlashToaster } from '@/components/FlashToaster';
 
 const navItems = [
-    { title: "首頁動態", href: "/", icon: Home },
-    { title: "配對大廳", href: "/matchmaking", icon: UsersRound },
+    { title: '首頁動態', href: '/', icon: Home },
+    { title: '配對大廳', href: '/matchmaking', icon: UsersRound },
     // { title: "探索發現", href: "/explore", icon: Compass },
     // { title: "個人資訊", href: "/settings", icon: UserCircle },
-]
+];
 
 interface AppLayoutProps {
-    children: React.ReactNode
+    children: React.ReactNode;
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
-    const { url,  flash } = usePage<{
-        auth?: { user?: User }
-    }>()
+    const { url, flash } = usePage<{
+        auth?: { user?: User };
+    }>();
 
     return (
         <>
@@ -66,13 +63,15 @@ export default function AppLayout({ children }: AppLayoutProps) {
                     <AppSidebarDesktop navItems={navItems} url={url} />
                     {/* 主要內容區 */}
                     <main className="flex-1 md:pl-16">
-                        <div className="container mx-auto p-4 md:p-6">{children}</div>
+                        <div className="container mx-auto p-4 md:p-6">
+                            {children}
+                        </div>
                     </main>
 
-                     <Toaster />
-                     <FlashToaster flash={flash} />
+                    <Toaster />
+                    <FlashToaster flash={flash} />
                 </div>
             </div>
         </>
-    )
+    );
 }

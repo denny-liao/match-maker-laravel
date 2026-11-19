@@ -1,8 +1,8 @@
 export enum DialogEnum {
-  DELETE = 'delete',
+    DELETE = 'delete',
 }
 
 export enum TextareaButtonEnum {
-  SUBMIT = 'submit',
-  CANCEL = 'cancel'
+    SUBMIT = 'submit',
+    CANCEL = 'cancel',
 }

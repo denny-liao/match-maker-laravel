@@ -54,10 +54,14 @@ export default function Register() {
                                     value={data.name}
                                     autoComplete="name"
                                     autoFocus
-                                    onChange={(e) => setData('name', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('name', e.target.value)
+                                    }
                                 />
                                 {errors.name && (
-                                    <p className="text-xs text-destructive">{errors.name}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.name}
+                                    </p>
                                 )}
                             </div>
 
@@ -70,10 +74,14 @@ export default function Register() {
                                     placeholder="name@example.com"
                                     value={data.email}
                                     autoComplete="username"
-                                    onChange={(e) => setData('email', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('email', e.target.value)
+                                    }
                                 />
                                 {errors.email && (
-                                    <p className="text-xs text-destructive">{errors.email}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.email}
+                                    </p>
                                 )}
                             </div>
 
@@ -85,23 +93,32 @@ export default function Register() {
                                     type="password"
                                     value={data.password}
                                     autoComplete="new-password"
-                                    onChange={(e) => setData('password', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('password', e.target.value)
+                                    }
                                 />
                                 {errors.password && (
-                                    <p className="text-xs text-destructive">{errors.password}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.password}
+                                    </p>
                                 )}
                             </div>
 
                             {/* Password Confirmation 欄位 */}
                             <div className="space-y-1.5">
-                                <Label htmlFor="password_confirmation">確認密碼</Label>
+                                <Label htmlFor="password_confirmation">
+                                    確認密碼
+                                </Label>
                                 <Input
                                     id="password_confirmation"
                                     type="password"
                                     value={data.password_confirmation}
                                     autoComplete="new-password"
                                     onChange={(e) =>
-                                        setData('password_confirmation', e.target.value)
+                                        setData(
+                                            'password_confirmation',
+                                            e.target.value,
+                                        )
                                     }
                                 />
                                 {errors.password_confirmation && (
@@ -113,7 +130,11 @@ export default function Register() {
                         </CardContent>
 
                         <CardFooter className="flex flex-col space-y-3">
-                            <Button type="submit" className="w-full" disabled={processing}>
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={processing}
+                            >
                                 {processing ? '註冊中...' : '註冊'}
                             </Button>
 

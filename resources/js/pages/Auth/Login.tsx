@@ -18,7 +18,10 @@ interface LoginProps {
     canResetPassword?: boolean;
 }
 
-export default function Login({ status, canResetPassword = false }: LoginProps) {
+export default function Login({
+    status,
+    canResetPassword = false,
+}: LoginProps) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -65,10 +68,14 @@ export default function Login({ status, canResetPassword = false }: LoginProps) 
                                     value={data.email}
                                     autoComplete="username"
                                     autoFocus
-                                    onChange={(e) => setData('email', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('email', e.target.value)
+                                    }
                                 />
                                 {errors.email && (
-                                    <p className="text-xs text-destructive">{errors.email}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.email}
+                                    </p>
                                 )}
                             </div>
 
@@ -90,10 +97,14 @@ export default function Login({ status, canResetPassword = false }: LoginProps) 
                                     type="password"
                                     value={data.password}
                                     autoComplete="current-password"
-                                    onChange={(e) => setData('password', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('password', e.target.value)
+                                    }
                                 />
                                 {errors.password && (
-                                    <p className="text-xs text-destructive">{errors.password}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.password}
+                                    </p>
                                 )}
                             </div>
 
@@ -102,7 +113,9 @@ export default function Login({ status, canResetPassword = false }: LoginProps) 
                                 <Checkbox
                                     id="remember"
                                     checked={data.remember}
-                                    onCheckedChange={(checked) => setData('remember', Boolean(checked))}
+                                    onCheckedChange={(checked) =>
+                                        setData('remember', Boolean(checked))
+                                    }
                                 />
                                 <Label
                                     htmlFor="remember"
@@ -114,7 +127,11 @@ export default function Login({ status, canResetPassword = false }: LoginProps) 
                         </CardContent>
 
                         <CardFooter className="flex flex-col space-y-3">
-                            <Button type="submit" className="w-full" disabled={processing}>
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={processing}
+                            >
                                 {processing ? '登入中...' : '登入'}
                             </Button>
 

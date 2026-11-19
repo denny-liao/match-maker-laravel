@@ -2,7 +2,6 @@ import { Head } from '@inertiajs/react';
 import { EditCommentProps, EditCommentTextarea } from '@/features/Comments';
 
 export default function Edit({ comment }: EditCommentProps) {
-
     return (
         <>
             <Head title="編輯留言" />

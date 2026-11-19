@@ -19,19 +19,18 @@ const dialogContent: ConfirmDialogContentActions = {
     [DialogEnum.DELETE]: {
         title: '確定要刪除嗎？',
         description: '此操作無法復原，刪除後資料將永久移除。',
-        text: '刪除'
+        text: '刪除',
     },
-}
-
+};
 
 export function ConfirmDialog({
     type,
     onConfirm,
     processing = false,
-    buttonText =  <Trash2 className="size-3.5" />,
+    buttonText = <Trash2 className="size-3.5" />,
 }: ConfirmDialogProps) {
     const [open, setOpen] = useState(false);
-    const {title, description, text } = dialogContent[type]
+    const { title, description, text } = dialogContent[type];
 
     const handleConfirm = () => {
         onConfirm();
@@ -57,15 +56,19 @@ export function ConfirmDialog({
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>{title}</AlertDialogTitle>
-                    <AlertDialogDescription>{description}</AlertDialogDescription>
+                    <AlertDialogDescription>
+                        {description}
+                    </AlertDialogDescription>
                 </AlertDialogHeader>
 
                 <AlertDialogFooter>
-                    <AlertDialogCancel disabled={processing}>取消</AlertDialogCancel>
+                    <AlertDialogCancel disabled={processing}>
+                        取消
+                    </AlertDialogCancel>
                     <AlertDialogAction
                         onClick={handleConfirm}
                         disabled={processing}
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        className="text-destructive-foreground bg-destructive hover:bg-destructive/90"
                     >
                         {processing ? '處理中...' : `確定${text}`}
                     </AlertDialogAction>

@@ -18,7 +18,7 @@ interface FlashData {
     info?: string;
 }
 
-export function FlashToaster({ flash }: {flash: FlashData}) {
+export function FlashToaster({ flash }: { flash: FlashData }) {
     const processedRef = useRef<string | null>(null);
     const triggerToast = (data?: FlashData) => {
         if (!data) return;

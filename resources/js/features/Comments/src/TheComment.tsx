@@ -8,10 +8,8 @@ import { DialogEnum } from '@/enums/appEnum';
 import { Link, router } from '@inertiajs/react';
 import { useAuth } from '@/hooks/useAuth';
 
-
 export default function TheComment({ comment }: { comment: CommentItem }) {
-    const { user, isAuthenticated } = useAuth()
-
+    const { user, isAuthenticated } = useAuth();
 
     // 刪除處理函式
     const handleDelete = (commentId: number) => {
@@ -20,9 +18,7 @@ export default function TheComment({ comment }: { comment: CommentItem }) {
         });
     };
     return (
-        <div
-            className="flex gap-4 rounded-xl border bg-card p-5 shadow-xs transition-all hover:bg-accent/20"
-        >
+        <div className="flex gap-4 rounded-xl border bg-card p-5 shadow-xs transition-all hover:bg-accent/20">
             {/* 匿名頭像 */}
             <Avatar className="size-10 shrink-0 border">
                 <AvatarImage
@@ -50,13 +46,16 @@ export default function TheComment({ comment }: { comment: CommentItem }) {
                     </div>
 
                     {/* 編輯與刪除功能按鈕 */}
-                    {isAuthenticated && user.id === comment.authorId
-                        && <div className="flex items-center gap-1">
+                    {isAuthenticated && user.id === comment.authorId && (
+                        <div className="flex items-center gap-1">
                             <Link
                                 href={`/comments/${comment.id}/edit`}
                                 className={cn(
-                                    buttonVariants({ variant: "ghost", size: "icon" }),
-                                    "size-7 text-muted-foreground hover:text-foreground"
+                                    buttonVariants({
+                                        variant: 'ghost',
+                                        size: 'icon',
+                                    }),
+                                    'size-7 text-muted-foreground hover:text-foreground',
                                 )}
                             >
                                 <Pencil className="size-3.5" />
@@ -67,14 +66,14 @@ export default function TheComment({ comment }: { comment: CommentItem }) {
                                 type={DialogEnum.DELETE}
                                 onConfirm={() => handleDelete(comment.id)}
                             />
-                        </div>}
+                        </div>
+                    )}
                 </div>
 
-                <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground/90">
+                <p className="mt-2 text-sm leading-relaxed break-words whitespace-pre-wrap text-foreground/90">
                     {comment.message}
                 </p>
             </div>
-
         </div>
-    )
+    );
 }

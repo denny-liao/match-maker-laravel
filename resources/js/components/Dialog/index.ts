@@ -1,3 +1,3 @@
-export { ConfirmDialog } from "./src/ConfirmDialog";
+export { ConfirmDialog } from './src/ConfirmDialog';
 
-export type * from "./src/types";
+export type * from './src/types';

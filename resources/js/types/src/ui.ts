@@ -1,11 +1,7 @@
-
 interface NavItem {
-  title: string;
-  href: string;
-  icon: React.ElementType; // 或用 IconType
+    title: string;
+    href: string;
+    icon: React.ElementType; // 或用 IconType
 }
 
-
-export {
-    type NavItem
-}
+export { type NavItem };

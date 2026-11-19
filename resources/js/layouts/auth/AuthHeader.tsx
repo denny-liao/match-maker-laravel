@@ -1,11 +1,7 @@
-import { Link } from "@inertiajs/react"
-import {
-    Settings,
-    LogOut,
-    User,
-} from "lucide-react"
+import { Link } from '@inertiajs/react';
+import { Settings, LogOut, User } from 'lucide-react';
 
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from '@/components/ui/button';
 
 import {
     DropdownMenu,
@@ -14,15 +10,14 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-    DropdownMenuGroup
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { getRandomAvatar } from "@/lib/utils"
-import { useAuth } from "@/hooks/useAuth"
-
+    DropdownMenuGroup,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getRandomAvatar } from '@/lib/utils';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function AuthHeader() {
-    const { user, isAuthenticated } = useAuth()
+    const { user, isAuthenticated } = useAuth();
     return (
         <>
             {isAuthenticated ? (
@@ -36,7 +31,10 @@ export default function AuthHeader() {
                         }
                     >
                         <Avatar className="h-9 w-9">
-                            <AvatarImage src={getRandomAvatar(user.name)} alt={user.name} />
+                            <AvatarImage
+                                src={getRandomAvatar(user.name)}
+                                alt={user.name}
+                            />
                             <AvatarFallback>
                                 {user.name.charAt(0).toUpperCase()}
                             </AvatarFallback>
@@ -47,7 +45,7 @@ export default function AuthHeader() {
                         <DropdownMenuGroup>
                             <DropdownMenuLabel className="font-normal">
                                 <div className="flex flex-col space-y-1">
-                                    <p className="text-sm font-medium leading-none">
+                                    <p className="text-sm leading-none font-medium">
                                         {user.name}
                                     </p>
                                     <p className="text-xs leading-none text-muted-foreground">
@@ -102,7 +100,7 @@ export default function AuthHeader() {
                     {/* Base UI 中直接用 buttonVariants 搭配 Inertia Link 最乾淨且無多餘 DOM 層級 */}
                     <Link
                         href="/login"
-                        className={buttonVariants({ variant: "ghost" })}
+                        className={buttonVariants({ variant: 'ghost' })}
                     >
                         登入
                     </Link>
@@ -110,6 +108,7 @@ export default function AuthHeader() {
                         註冊
                     </Link>
                 </>
-            )}</>
-    )
+            )}
+        </>
+    );
 }

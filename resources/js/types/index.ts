@@ -1,2 +1,2 @@
 export type * from './auth';
-export type * from './src'
+export type * from './src';

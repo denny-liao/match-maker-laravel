@@ -60,16 +60,24 @@ export default function ForgotPassword({ status }: ForgotPasswordProps) {
                                     value={data.email}
                                     autoComplete="username"
                                     autoFocus
-                                    onChange={(e) => setData('email', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('email', e.target.value)
+                                    }
                                 />
                                 {errors.email && (
-                                    <p className="text-xs text-destructive">{errors.email}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.email}
+                                    </p>
                                 )}
                             </div>
                         </CardContent>
 
                         <CardFooter className="flex flex-col space-y-3">
-                            <Button type="submit" className="w-full" disabled={processing}>
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={processing}
+                            >
                                 {processing ? '寄送中...' : '寄送密碼重設連結'}
                             </Button>
 

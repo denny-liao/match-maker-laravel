@@ -57,10 +57,14 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                                     type="email"
                                     value={data.email}
                                     autoComplete="username"
-                                    onChange={(e) => setData('email', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('email', e.target.value)
+                                    }
                                 />
                                 {errors.email && (
-                                    <p className="text-xs text-destructive">{errors.email}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.email}
+                                    </p>
                                 )}
                             </div>
 
@@ -73,23 +77,32 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                                     value={data.password}
                                     autoComplete="new-password"
                                     autoFocus
-                                    onChange={(e) => setData('password', e.target.value)}
+                                    onChange={(e) =>
+                                        setData('password', e.target.value)
+                                    }
                                 />
                                 {errors.password && (
-                                    <p className="text-xs text-destructive">{errors.password}</p>
+                                    <p className="text-xs text-destructive">
+                                        {errors.password}
+                                    </p>
                                 )}
                             </div>
 
                             {/* 確認新密碼欄位 */}
                             <div className="space-y-1.5">
-                                <Label htmlFor="password_confirmation">確認新密碼</Label>
+                                <Label htmlFor="password_confirmation">
+                                    確認新密碼
+                                </Label>
                                 <Input
                                     id="password_confirmation"
                                     type="password"
                                     value={data.password_confirmation}
                                     autoComplete="new-password"
                                     onChange={(e) =>
-                                        setData('password_confirmation', e.target.value)
+                                        setData(
+                                            'password_confirmation',
+                                            e.target.value,
+                                        )
                                     }
                                 />
                                 {errors.password_confirmation && (
@@ -101,7 +114,11 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                         </CardContent>
 
                         <CardFooter>
-                            <Button type="submit" className="w-full" disabled={processing}>
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={processing}
+                            >
                                 {processing ? '重設中...' : '確認重設密碼'}
                             </Button>
                         </CardFooter>
