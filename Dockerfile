@@ -52,7 +52,10 @@ RUN install-php-extensions \
     zip \
     gd \
     intl \
-    opcache
+    opcache \
+    redis
+
+RUN install-php-extensions pcntl
 
 WORKDIR /app
 
