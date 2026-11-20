@@ -23,8 +23,8 @@ export default function Login({
     canResetPassword = false,
 }: LoginProps) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
+        email: 'test1@example.com',
+        password: 'test1234',
         remember: false,
     });
     const submit = (e: React.SubmitEvent<HTMLFormElement>) => {
