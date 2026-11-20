@@ -1,6 +1,6 @@
 import React from 'react';
 import { Head, usePage } from '@inertiajs/react';
-import { Home, UsersRound } from 'lucide-react';
+import { Home, UserCircle, UsersRound } from 'lucide-react';
 
 import Title from './AppTitle';
 import AppSidebarMobile from './app/AppSidebarMobile';
@@ -14,8 +14,8 @@ import { FlashToaster } from '@/components/FlashToaster';
 const navItems = [
     { title: '首頁動態', href: '/', icon: Home },
     { title: '配對大廳', href: '/matchmaking', icon: UsersRound },
+    { title: "個人資訊", href: "/profile", icon: UserCircle },
     // { title: "探索發現", href: "/explore", icon: Compass },
-    // { title: "個人資訊", href: "/settings", icon: UserCircle },
 ];
 
 interface AppLayoutProps {
