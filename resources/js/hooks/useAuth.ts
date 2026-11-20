@@ -4,6 +4,7 @@ import { usePage } from '@inertiajs/react';
 
 export function useAuth() {
     const { auth } = usePage<{ auth?: { user?: User } }>().props;
+    const isAuthenticated = Boolean(auth?.user)
     const user = auth?.user ?? { id: null, name: '', email: '' };
 
     return {
@@ -11,6 +12,6 @@ export function useAuth() {
             ...user,
             avatar: getRandomAvatar(user?.name ?? ''),
         },
-        isAuthenticated: Boolean(user),
+        isAuthenticated,
     };
 }
