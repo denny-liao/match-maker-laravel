@@ -1,4 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CommentItem } from './types';
 import { cn, getRandomAvatar } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { ConfirmDialog } from '@/components/Dialog';
 import { DialogEnum } from '@/enums/appEnum';
 import { Link, router } from '@inertiajs/react';
 import { useAuth } from '@/hooks/useAuth';
+import { ProfileAvatar } from '@/features/Profile';
 
 export default function TheComment({ comment }: { comment: CommentItem }) {
     const { user, isAuthenticated } = useAuth();
@@ -20,15 +20,9 @@ export default function TheComment({ comment }: { comment: CommentItem }) {
     return (
         <div className="flex gap-4 rounded-xl border bg-card p-5 shadow-xs transition-all hover:bg-accent/20">
             {/* 匿名頭像 */}
-            <Avatar className="size-10 shrink-0 border">
-                <AvatarImage
-                    src={getRandomAvatar(comment.authorName)}
-                    alt={comment.authorName}
-                />
-                <AvatarFallback>
-                    {comment.authorName.slice(0, 1)}
-                </AvatarFallback>
-            </Avatar>
+            <ProfileAvatar
+                name={comment.authorName}
+                className="size-10 shrink-0 border" />
 
             {/* 留言主體內容 */}
             <div className="min-w-0 flex-1">

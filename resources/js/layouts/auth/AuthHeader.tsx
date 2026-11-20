@@ -12,9 +12,8 @@ import {
     DropdownMenuTrigger,
     DropdownMenuGroup,
 } from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getRandomAvatar } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
+import { ProfileAvatar } from '@/features/Profile';
 
 export default function AuthHeader() {
     const { user, isAuthenticated } = useAuth();
@@ -30,15 +29,7 @@ export default function AuthHeader() {
                             />
                         }
                     >
-                        <Avatar className="h-9 w-9">
-                            <AvatarImage
-                                src={getRandomAvatar(user.name)}
-                                alt={user.name}
-                            />
-                            <AvatarFallback>
-                                {user.name.charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                        </Avatar>
+                        <ProfileAvatar name={user.name} />
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent className="w-56" align="end">
