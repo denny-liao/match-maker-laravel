@@ -7,7 +7,7 @@ use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-#[Signature('make:domain {boundedContext} {domainName}')]
+#[Signature('make:domain {domainName}')]
 #[Description('Creates a new domain directory structure')]
 class CreateDomain extends Command
 {
@@ -16,9 +16,8 @@ class CreateDomain extends Command
      */
     public function handle()
     {
-        $boundedContext = $this->argument('boundedContext');
         $domainName = $this->argument('domainName');
-        $basePath = 'src/' . $boundedContext . '/' . $domainName;
+        $basePath = 'src/' . '/' . $domainName;
 
         // Application
         $applicationStructure = [
@@ -46,7 +45,6 @@ class CreateDomain extends Command
             if ($domainDirectory === 'Entities') {
                 $stub = File::get('./stubs/DomainModel.stub');
                 $stubReplace = [
-                    '**BoundedContext**' => $boundedContext,
                     '**Domain**' => $domainName,
                 ];
                 $file = strtr($stub, $stubReplace);
