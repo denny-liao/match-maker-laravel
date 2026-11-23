@@ -53,7 +53,7 @@ final class CommentController extends Controller
     public function store(CommentRequest $request): RedirectResponse
     {
         // 呼叫 Application 執行建立邏輯
-        $command = new PostCommentCommand($request->user()->id, $request->message);
+        $command = new PostCommentCommand($request->user()->id, $request->message, $request->user()->name, 0);
 
         $this->postCommentHandler->handle($command);
         return  Inertia::flash('toast', [

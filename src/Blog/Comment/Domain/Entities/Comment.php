@@ -2,34 +2,53 @@
 
 namespace Src\Blog\Comment\Domain\Entities;
 
-use Src\Blog\Comment\Domain\ValueObjects\AuthorId;
+use Src\Blog\Comment\Domain\Enums\CommentStatus;
 use Src\Common\Domain\AggregateRoot;
 
 final class Comment extends AggregateRoot
 {
 
     public function __construct(
-        public ?int $id,
-        public readonly AuthorId $authorId,
+        public private(set) ?int $id,
+        public readonly int $authorId,
         public string $message,
+        public private(set) ?string $authorName,
+        public readonly ?int $amount,
+        public private(set) CommentStatus $status
     ) {}
 
     // 專門用來「建立全新留言」的命名建構子（此時還沒有 ID）
-    public static function create(int $authorId, string $message): self
+    public static function create(int $authorId, string $authorName, string $message, int $amount): self
     {
+        if ($amount < 0) {
+            throw new \DomainException('贊助金額不能為負數');
+        }
+        if ($amount > 0 && $amount < 10) {
+            throw new \DomainException('單筆贊助最低金額為 10 元');
+        }
+
         $comment = new self(
             id: null,
-            authorId: new AuthorId($authorId),
+            authorId: $authorId,
+            authorName: $authorName,
             message: $message,
+            amount: $amount,
+            status: $amount > 0 ? CommentStatus::Pending : CommentStatus::Published
         );
 
         return $comment;
     }
 
+    public function assignId(int $id) {
+        $this->id = $id;
+        
+        return $this;
+    }
+
     public function editMessage(string $message, int $operatorId): void
     {
         // 驗證操作員是否為作者
-        if ($this->authorId->value !== $operatorId) {
+        if ($this->authorId !== $operatorId) {
             throw new \DomainException('Only the author can edit this comment.');
         }
 
@@ -37,9 +56,16 @@ final class Comment extends AggregateRoot
         $this->message = $message;
     }
 
-    public function ensureCanBeDeletedBy(int $operatorId) {
-        if ($this->authorId->value !== $operatorId) {
+    public function ensureCanBeDeletedBy(int $operatorId)
+    {
+        if ($this->authorId !== $operatorId) {
             throw new \DomainException('Only the author can delete this comment.');
         }
+    }
+
+    // 金流付款成功後發布留言
+    public function publish(): void
+    {
+        $this->status = CommentStatus::Published;
     }
 }

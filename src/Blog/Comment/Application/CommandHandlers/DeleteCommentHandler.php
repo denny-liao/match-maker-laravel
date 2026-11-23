@@ -3,10 +3,8 @@
 namespace Src\Blog\Comment\Application\CommandHandlers;
 
 use Src\Blog\Comment\Application\Commands\DeleteCommentCommand;
-use Src\Blog\Comment\Application\Commands\EditCommentCommand;
 use Src\Blog\Comment\Application\Exceptions\CommentNotFoundException;
 use Src\Blog\Comment\Domain\Repositories\CommentRepositoryInterface;
-use Src\Blog\Comment\Domain\ValueObjects\AuthorId;
 
 final readonly class DeleteCommentHandler
 {
