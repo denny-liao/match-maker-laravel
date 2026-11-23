@@ -20,7 +20,6 @@ final readonly class WebhookParsedResult
 
     public function isPaymentInfo()
     {
-
         return $this->eventStatus === 'code_issued';
     }
 
