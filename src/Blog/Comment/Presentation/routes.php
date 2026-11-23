@@ -2,6 +2,7 @@
 
 use Src\Blog\Comment\Presentation\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
+use Src\Blog\Comment\Presentation\Controllers\DonateComment;
 
 Route::get('/', [CommentController::class, 'index'])
     ->name('home');
@@ -12,3 +13,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('comments', CommentController::class)
         ->only(['store', 'edit', 'update', 'destroy']);
 });
+
+Route::post('/comments/donations', DonateComment::class)
+    ->name('comments.donations');
