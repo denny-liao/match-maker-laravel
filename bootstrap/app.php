@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Src\Common\Presentation\Middleware\HandleInertiaRequests;
 use Src\Matchmaking\Room\Domain\Exceptions\RoomRuleException;
+use Src\Payment\Domain\Exceptions\PaymentRuleException;
 use Symfony\Component\Finder\Finder;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -53,5 +54,16 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (RoomRuleException $exception) {
             return back()->withErrors(['room' => $exception->getMessage()]);
         });
+        $exceptions->render(function (PaymentRuleException $exception) {
+            return back()->withErrors(['payment' => $exception->getMessage()]);
+        });
+        $exceptions->render(function (\RuntimeException $e, Request $request) {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    });
     })->create()
     ->useAppPath(dirname(__DIR__) . '/src');
