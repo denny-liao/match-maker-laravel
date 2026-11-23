@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Src\Common\Domain\Clock\Clock;
 use Src\Common\Infrastructure\Clock\TaipeiClock;
 
-class CommentServiceProvider extends ServiceProvider
+class CommonServiceProvider extends ServiceProvider
 {
     /**
      * All of the container bindings that should be registered.
