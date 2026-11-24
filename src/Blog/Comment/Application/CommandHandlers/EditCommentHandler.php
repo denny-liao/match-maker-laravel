@@ -19,9 +19,10 @@ final readonly class EditCommentHandler
             ?? throw new CommentNotFoundException($command->id);
 
         // 執行領域行為（保護業務規則）
-        $comment->editMessage(
+        $comment->editComment(
             $command->message,
-            $command->operatorId
+            $command->operatorId,
+            $command->amount
         );
 
         // 持久化變更

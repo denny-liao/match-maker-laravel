@@ -6,7 +6,8 @@ final readonly class EditCommentCommand
 {
     public function __construct(
         public int $id,
-        public int $operatorId,
-        public string $message,
+        public ?int $operatorId = null,
+        public ?string $message = null,
+        public ?int $amount = 0,
     ) {}
 }

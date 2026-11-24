@@ -8,6 +8,6 @@ final readonly class PostCommentCommand
         public int $operatorId,
         public string $message,
         public string $authorName,
-        public int $amount
+        public ?int $amount = 0
     ) {}
 }

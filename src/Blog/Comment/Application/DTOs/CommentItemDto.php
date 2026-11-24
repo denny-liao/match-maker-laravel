@@ -9,7 +9,8 @@ final readonly class CommentItemDto
         public string $message,
         public string $createdAt,
         public ?int $authorId,
+        public int $amount,
         public string $authorName = '',
-        public string $avatar = ''
+        public string $avatar = '',
     ) {}
 }

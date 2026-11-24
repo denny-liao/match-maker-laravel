@@ -5,6 +5,7 @@ namespace Src\Blog\Comment\Application\Queries;
 use Carbon\Carbon;
 use PDO;
 use Src\Blog\Comment\Application\DTOs\CommentItemDto;
+use Src\Blog\Comment\Domain\Enums\CommentStatus;
 
 final readonly class ListCommentsByQuery
 {
@@ -24,15 +25,16 @@ final readonly class ListCommentsByQuery
 
         // 直接跨表 JOIN 查詢，不載入任何聚合根，效能極高
         $stmt = $this->db->prepare('
-            SELECT c.id, c.message, c.created_at, c.author_id, u.name AS author_name
+            SELECT c.id, c.message, c.created_at, c.author_id, c.author_name, c.donate_amount
             FROM comments c
-            LEFT JOIN users u ON c.author_id = u.id
+            WHERE c.status = :status
             ORDER BY c.created_at DESC
             LIMIT :limit OFFSET :offset
         ');
         $stmt->execute([
             'limit' => $query->perPage,
             'offset' => $offset,
+            'status' => CommentStatus::Published->value
         ]);
 
         return array_map(
@@ -41,6 +43,7 @@ final readonly class ListCommentsByQuery
                 message: $row['message'],
                 authorId: $row['author_id'],
                 authorName: $row['author_name'] ?? '未知使用者',
+                amount: $row['donate_amount'],
                 createdAt: Carbon::parse($row['created_at'])->diffForHumans(),
             ),
             $stmt->fetchAll(PDO::FETCH_ASSOC) // key => value 形式的陣列
