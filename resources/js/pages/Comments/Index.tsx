@@ -6,8 +6,6 @@ import {
 } from '@/features/Comments';
 import { Fragment } from 'react';
 
-// 未來開啟編輯、刪除功能時可取消註解以下圖示
-// import { Pencil, Trash2 } from 'lucide-react';
 
 export default function Comment({ comments = [] }: CommentProps) {
     return (

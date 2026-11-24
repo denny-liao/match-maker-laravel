@@ -1,7 +1,7 @@
 import { CommentItem } from './types';
 import { cn, getRandomAvatar } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Pencil, Trash2 } from 'lucide-react';
+import { CircleDollarSignIcon, Pencil } from 'lucide-react';
 import { ConfirmDialog } from '@/components/Dialog';
 import { DialogEnum } from '@/enums/appEnum';
 import { Link, router } from '@inertiajs/react';
@@ -37,6 +37,11 @@ export default function TheComment({ comment }: { comment: CommentItem }) {
                         >
                             {comment.createdAt}
                         </span>
+                        {comment.amount > 0 &&
+                            <span className="truncate text-yellow-300">
+                                <CircleDollarSignIcon className='inline mx-1' />
+                                {comment.amount}
+                            </span>}
                     </div>
 
                     {/* 編輯與刪除功能按鈕 */}

@@ -43,7 +43,6 @@ export default function ConfirmInfoPage({ info, status }: ConfirmInfoPageProps) 
                             <CardTitle>購買資訊</CardTitle>
                             <CardDescription>訂單編號 #{info.MerchantTradeNo}</CardDescription>
                         </CardHeader>
-
                         <CardContent className="space-y-4">
                             {/* 商品項目列表 */}
                             <div className="space-y-2 text-sm">
@@ -81,8 +80,8 @@ export default function ConfirmInfoPage({ info, status }: ConfirmInfoPageProps) 
                         </CardContent>
                     </Card>
                     <Button variant="secondary" onClick={submit} disabled={status === 'success'}>{
-                        status === 'success' ? '已付款' :'確認並付款'}
-                        </Button>
+                        status === 'success' ? '已付款' : '確認並付款'}
+                    </Button>
                 </div>
             </section>
         </div>

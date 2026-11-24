@@ -5,6 +5,7 @@ export interface CommentItem {
     authorName: string;
     createdAt: string;
     avatar: string;
+    amount: number;
 }
 
 export interface CommentProps {

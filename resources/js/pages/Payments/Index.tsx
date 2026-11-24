@@ -45,7 +45,7 @@ export default function PaymentsPage() {
     const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const reg = /[^0-9]*/g
         const value = e.target.value.replace(reg, '')
-        setData('amount', parseInt(value));
+        setData('amount', parseInt(value) || 0);
     }
 
 
@@ -56,6 +56,12 @@ export default function PaymentsPage() {
                 <div className="flex flex-col items-center gap-5 py-12 text-center">
                     <ImageRadioSelect images={channels} selected={channelSelected} onSelected={handleChannelChange} />
                     贊助留言 (將於首頁顯示贊助內容)
+                    <ul>
+                        測試資訊：
+                        <br /> **確認並付款送出訂單後選擇任一即時付款方式付款**
+                        <br /> (測試無須輸入資訊直接點擊按鈕)
+                        <br /> (交易成功後即新增留言)
+                    </ul>
                     <form onSubmit={submit} className="grid w-full max-w-sm gap-6">
                         <InputGroup>
                             <InputGroupAddon>

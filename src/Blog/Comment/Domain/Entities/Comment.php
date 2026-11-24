@@ -10,7 +10,7 @@ final class Comment extends AggregateRoot
 
     public function __construct(
         public private(set) ?int $id,
-        public readonly int $authorId,
+        public readonly ?int $authorId,
         public string $message,
         public readonly ?string $authorName,
         public readonly ?int $amount,
@@ -18,7 +18,7 @@ final class Comment extends AggregateRoot
     ) {}
 
     // 專門用來「建立全新留言」的命名建構子（此時還沒有 ID）
-    public static function create(int $authorId, string $authorName, string $message, int $amount): self
+    public static function create(?int $authorId, ?string $authorName, string $message, int $amount): self
     {
         if ($amount < 0) {
             throw new \DomainException('贊助金額不能為負數');

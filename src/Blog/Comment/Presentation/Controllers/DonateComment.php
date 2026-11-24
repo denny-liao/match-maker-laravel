@@ -17,7 +17,7 @@ class DonateComment extends Controller
     public function __invoke(DonateCommentRequest $request): RedirectResponse
     {
 
-        $command = new PostCommentCommand($request->user()->id, $request->message, $request->user()->name, $request->amount);
+        $command = new PostCommentCommand($request->user()?->id, $request->message, $request->user()?->name ?? $request->name, $request->amount);
 
         $tradeNo = $this->donateCommentHandler->handle($command, $request->channel);
         return to_route('payments.info', [
