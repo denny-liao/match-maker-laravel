@@ -4,6 +4,7 @@ namespace Src\Payment\Infrastructure\EloquentModels;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Src\Payment\Domain\Enums\PaymentStatus;
 
 #[Fillable([
     'reference_id',
@@ -49,6 +50,7 @@ class PaymentEloquentModel extends Model
             'expire_at' => 'immutable_datetime',
             'payment_info' => 'array',
             'raw_response' => 'array',
+            'status' => PaymentStatus::class
         ];
     }
 }

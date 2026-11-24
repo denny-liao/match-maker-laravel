@@ -18,7 +18,7 @@ final class PaymentMapper
             channel: $model->channel,
             channelTradeNo: $model->channel_trade_no,
             amount: $model->amount,
-            status: PaymentStatus::from($model->status),
+            status: $model->status,
             note: $model->note,
             paidAt: $model->paid_at,
             expireAt: $model->expire_at,

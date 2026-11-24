@@ -31,4 +31,8 @@ final class TaipeiClock implements Clock
     {
         return new DateTimeImmutable($datetime, $this->timezone);
     }
+
+    public function setTimezone(DateTimeImmutable $date): DateTimeImmutable {
+        return $date->setTimezone($this->timezone);
+    }
 }

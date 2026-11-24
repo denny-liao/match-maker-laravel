@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('trade_date')->useCurrent();
             // ecpay
             $table->string('channel', 20);
-            $table->string('channel_trade_no', 20);
+            $table->string('channel_trade_no', 20)->nullable();
             $table->unsignedInteger('amount');
     	    // pending:剛建立請款
 	        // waiting_payment: 已取號, 非即時支付
@@ -26,7 +26,7 @@ return new class extends Migration
 	        // expired:超過繳費期限未付
 	        // failed:異常或扣款失敗
             $table->string('status')->default('pending');
-            $table->string('note', 20);
+            $table->string('note', 20)->nullable();
             $table->timestamp('paid_at')->nullable();
             // TODO: 排程處裡
             $table->timestamp('expire_at')->nullable();

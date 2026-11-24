@@ -45,6 +45,7 @@ class CommentRepository implements CommentRepositoryInterface
         // 情況二：已存在的留言，執行更新
         CommentEloquentModel::where('id', $comment->id)->update([
             'message' => $comment->message,
+            'status' => $comment->status
         ]);
 
         return null;

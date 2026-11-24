@@ -2,7 +2,7 @@
 
 namespace Src\Blog\Comment\Presentation\Controllers;
 
-use Inertia\Inertia;
+use Illuminate\Http\RedirectResponse;
 use Src\Blog\Comment\Application\CommandHandlers\DonateCommentHandler;
 use Src\Blog\Comment\Application\Commands\PostCommentCommand;
 use Src\Blog\Comment\Presentation\Requests\DonateCommentRequest;
@@ -14,14 +14,14 @@ class DonateComment extends Controller
         public DonateCommentHandler $donateCommentHandler,
     ) {}
 
-    public function __invoke(DonateCommentRequest $request)
+    public function __invoke(DonateCommentRequest $request): RedirectResponse
     {
 
         $command = new PostCommentCommand($request->user()->id, $request->message, $request->user()->name, $request->amount);
 
-        $paymentInfo = $this->donateCommentHandler->handle($command, $request->channel);
-        return Inertia::render(Page::CommentIndex, [
-            'info' => $paymentInfo,
+        $tradeNo = $this->donateCommentHandler->handle($command, $request->channel);
+        return to_route('payments.info', [
+            'trade_no' => $tradeNo
         ]);
     }
 }

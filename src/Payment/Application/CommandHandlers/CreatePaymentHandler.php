@@ -2,12 +2,11 @@
 
 namespace Src\Payment\Application\CommandHandlers;
 
+use DateTimeImmutable;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Src\Common\Domain\Clock\Clock;
 use Src\Payment\Application\Commands\CreatePaymentCommand;
 use Src\Payment\Application\Contracts\CreatePaymentHandlerInterface;
-use Src\Payment\Application\DTOs\PaymentFormDto;
-use Src\Payment\Domain\Adapters\PaymentAdapterInterface;
 use Src\Payment\Domain\Entities\Payment;
 use Src\Payment\Domain\Repositories\PaymentRepositoryInterface;
 
@@ -16,13 +15,12 @@ final readonly class CreatePaymentHandler implements CreatePaymentHandlerInterfa
     public function __construct(
         private PaymentRepositoryInterface $paymentRepo,
         private Clock $clock,
-        private PaymentAdapterInterface $paymentAdapter
     ) {}
-    public function handle(CreatePaymentCommand $command): PaymentFormDto
+    public function handle(CreatePaymentCommand $command): string
     {
         $maxAttempts = 3;
         $attempt = 0;
-        $payment = null;
+        $tradeNumber = null;
         while ($attempt < $maxAttempts) {
             try {
 
@@ -31,12 +29,12 @@ final readonly class CreatePaymentHandler implements CreatePaymentHandlerInterfa
                 $random = strtoupper(bin2hex(random_bytes(4)));
                 $tradeNumber = "ORD{$dateStr}{$random}";
 
-                $payment = $this->paymentRepo->create(Payment::create(
+                $this->paymentRepo->create(Payment::create(
                     referenceId: $command->referenceId,
                     amount: $command->amount,
                     channel: $command->channel,
                     tradeNo: $tradeNumber,
-                    tradeDate: $date,
+                    tradeDate: new DateTimeImmutable('now'),
                 ));
                 break; // 寫入成功，跳出迴圈
             } catch (UniqueConstraintViolationException $e) {
@@ -47,21 +45,6 @@ final readonly class CreatePaymentHandler implements CreatePaymentHandlerInterfa
                 }
             }
         }
-
-        $formData = $this->paymentAdapter->charge($payment, $command->tradeDesc, $command->itemName);
-
-        return new PaymentFormDto(
-            MerchantID: $formData['MerchantID'],
-            MerchantTradeNo: $formData['MerchantTradeNo'],
-            MerchantTradeDate: $formData['MerchantTradeDate'],
-            PaymentType: $formData['PaymentType'],
-            TotalAmount: $formData['TotalAmount'],
-            TradeDesc: $formData['TradeDesc'],
-            ItemName: $formData['ItemName'],
-            ReturnURL: $formData['ReturnURL'],
-            ChoosePayment: $formData['ChoosePayment'],
-            CheckMacValue: $formData['CheckMacValue'],
-            EncryptType: $formData['EncryptType'],
-        );
+        return $tradeNumber;
     }
 }

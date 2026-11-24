@@ -12,4 +12,6 @@ interface Clock
     public function timezone(): DateTimeZone;
 
     public function fromString(string $datetime): DateTimeImmutable;
+
+    public function setTimezone(DateTimeImmutable $date): DateTimeImmutable;
 }

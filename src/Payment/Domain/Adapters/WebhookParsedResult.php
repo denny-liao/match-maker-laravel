@@ -12,8 +12,8 @@ final readonly class WebhookParsedResult
         public string $channelTradeNo,
         public int $amount,
         public string $eventStatus,
-        public DateTimeImmutable $expireAt,
-        public array $paymentInfo,
+        public ?DateTimeImmutable $expireAt,
+        public ?array $paymentInfo,
         public array $rawResponse,
         public ?DateTimeImmutable $paidAt = null,
     ) {}

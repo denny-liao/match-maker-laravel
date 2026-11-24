@@ -46,10 +46,10 @@ final class Comment extends AggregateRoot
         return $this;
     }
 
-    public function editComment(string $message, int $operatorId, int $amount): void
+    public function editComment(?string $message, ?int $operatorId, int $amount): void
     {
         // 驗證操作員是否為作者
-        if (isset($this->authorId) && $this->authorId !== $operatorId) {
+        if (isset($operatorId) && $this->authorId !== $operatorId) {
             throw new \DomainException('Only the author can edit this comment.');
         }
 

@@ -15,11 +15,11 @@ final readonly class DonateCommentHandler
         private readonly CreatePaymentHandlerInterface $createPaymentHandler,
     ) {}
 
-    public function handle(PostCommentCommand $command, string $channel): PaymentFormDto
+    public function handle(PostCommentCommand $command, string $channel): string
     {
         $comment = $this->action->handle($command);
 
-        $paymentInfo = $this->createPaymentHandler->handle(new CreatePaymentCommand(
+        $tradeNo = $this->createPaymentHandler->handle(new CreatePaymentCommand(
             referenceId: $comment->id,
             amount: $comment->amount,
             channel: $channel,
@@ -27,7 +27,7 @@ final readonly class DonateCommentHandler
             tradeDesc: '數位工具開發與技術服務支持',
             userId: $comment->authorId
         ));
-
-        return $paymentInfo;
+        
+        return $tradeNo;
     }
 }

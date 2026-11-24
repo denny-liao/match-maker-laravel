@@ -13,12 +13,14 @@ class EcpayAdapter implements PaymentAdapterInterface
 {
     private string $hashKey;
     private string  $hashIV;
+    private string  $appUrl;
 
     public function __construct(
         private Clock $clock
     ) {
         $this->hashKey = config('custom.payment.ecpay.hash_key');
         $this->hashIV = config('custom.payment.ecpay.hash_iv');
+        $this->appUrl = config('app.url');
     }
 
     /** 發起付款，回傳統一標準化的結果 (付款網址或取號資訊) */
@@ -27,12 +29,13 @@ class EcpayAdapter implements PaymentAdapterInterface
         $formData = [
             'MerchantID' => config('custom.payment.ecpay.merchant_id'),
             'MerchantTradeNo' => $payment->tradeNo,
-            'MerchantTradeDate' => $payment->tradeDate,
+            'MerchantTradeDate' => $this->clock->setTimezone($payment->tradeDate)->format('Y/m/d H:i:s'),
             'PaymentType' => 'aio',
             'TotalAmount' => $payment->amount,
             'TradeDesc' => $tradeDesc,
             'ItemName' => $itemName,
-            'ReturnURL' => '', // TODO: ngrok
+            'ReturnURL' => "{$this->appUrl}/webhooks/payments/ecpay",
+            'PaymentInfoURL' => "{$this->appUrl}/webhooks/payments/ecpay",
             'ChoosePayment' => 'ALL',
             'CheckMacValue' => '',
             'EncryptType' => 1
@@ -44,32 +47,6 @@ class EcpayAdapter implements PaymentAdapterInterface
         return $formData;
     }
 
-// payment info
-// ATM 虛擬帳號範例
-// {
-//   "type": "ATM",
-//   "bank_code": "822",
-//   "virtual_account": "91234567890123"
-// }
-
-// 超商代碼範例
-// {
-//   "type": "CVS",
-//   "payment_no": "LL261121123456",
-//   "store_type": "IBON"
-// }
-
-// raw response
-// {
-//   "code_issued": {
-//     "received_at": "2026-11-21T16:30:00+08:00",
-//     "payload": { "RtnCode": "2", "BankCode": "822", "vAccount": "91234567890123" }
-//   },
-//   "payment_result": {
-//     "received_at": "2026-11-21T18:15:22+08:00",
-//     "payload": { "RtnCode": "1", "TradeNo": "2611211630001234", "TradeAmt": "1000" }
-//   }
-// }
     /** 驗證並解析外部 Webhook 傳來的原始資料，翻譯成系統看得懂的 DTO */
     public function parseWebhook(array $rawPayload): WebhookParsedResult
     {
@@ -85,19 +62,19 @@ class EcpayAdapter implements PaymentAdapterInterface
 
         // 交易狀態
         $eventStatus = match ($rawPayload['RtnCode']) {
-            1 => 'payment_succeeded',
-            2, 10100073 => 'code_issued',
+            '1' => 'payment_succeeded',
+            '2', '10100073' => 'code_issued',
             default => 'payment_failed'
         };
 
         // 取號資訊
         $paymentInfo = match ($rawPayload['RtnCode'] ?? '') {
-            2 => [
+            '2' => [
                 'type' => 'ATM',
                 'bank_code' => $rawPayload['BankCode'],
                 'virtual_account' => $rawPayload['vAccount']
             ],
-            10100073 => [
+            '10100073' => [
                 'type' => !empty($rawPayload['PaymentNo']) ? 'CVS' : 'BARCODE',
                 'payment_no' => $rawPayload['PaymentNo'],
             ],
@@ -106,7 +83,7 @@ class EcpayAdapter implements PaymentAdapterInterface
 
 
         $rawResponse[$eventStatus] = [
-            "received_at" => $this->clock->now(),
+            "received_at" => new DateTimeImmutable('now')->format('Y-m-d H:i:s'),
             "payload" => $rawPayload
         ];
 
