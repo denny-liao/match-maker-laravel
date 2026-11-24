@@ -33,6 +33,7 @@ export default defineConfig({
         alias: {
             // 這裡設定了 @ 指向 resources/js
             '@': path.resolve(__dirname, 'resources/js'),
+            '@images': path.resolve(__dirname, 'resources/images'),
         },
     },
     server: {

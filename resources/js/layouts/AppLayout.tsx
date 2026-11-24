@@ -1,6 +1,6 @@
 import React from 'react';
 import { Head, usePage } from '@inertiajs/react';
-import { Home, UserCircle, UsersRound } from 'lucide-react';
+import { HandCoins, Home, UserCircle, UsersRound } from 'lucide-react';
 
 import Title from './AppTitle';
 import AppSidebarMobile from './app/AppSidebarMobile';
@@ -16,6 +16,7 @@ const navItems = [
     { title: '配對大廳', href: '/matchmaking', icon: UsersRound },
     { title: "個人資訊", href: "/profile", icon: UserCircle },
     // { title: "探索發現", href: "/explore", icon: Compass },
+    { title: "贊助留言", href: "/payments", icon: HandCoins },
 ];
 
 interface AppLayoutProps {
