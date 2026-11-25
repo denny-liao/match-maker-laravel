@@ -1,8 +1,9 @@
 {
 	frankenphp
+	admin off
 }
 
-:{$PORT} {
+:{$PORT:10000} {
 	route {
 		@reverb path /app/* /apps/*
 		reverse_proxy @reverb 127.0.0.1:8080
