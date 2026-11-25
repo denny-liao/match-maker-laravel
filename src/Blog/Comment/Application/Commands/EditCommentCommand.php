@@ -8,6 +8,6 @@ final readonly class EditCommentCommand
         public int $id,
         public ?int $operatorId = null,
         public ?string $message = null,
-        public ?int $amount = 0,
+        public ?int $amount = null,
     ) {}
 }
