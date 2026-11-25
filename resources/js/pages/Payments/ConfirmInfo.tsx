@@ -22,16 +22,16 @@ interface EcpayInfo {
 
 interface ConfirmInfoPageProps {
     info: EcpayInfo,
-    status: string
+    status: string,
+    url: string
 }
 
-const ecpayUrl = import.meta.env.VITE_ECPAY_URL
 
-export default function ConfirmInfoPage({ info, status }: ConfirmInfoPageProps) {
+export default function ConfirmInfoPage({ info, status, url }: ConfirmInfoPageProps) {
 
     const submit = () => {
         // 點擊「確認結帳」按鈕時呼叫：
-        submitToEcpay(ecpayUrl, info);
+        submitToEcpay(url, info);
     }
     return (<>
         <Head title="付款資訊" />

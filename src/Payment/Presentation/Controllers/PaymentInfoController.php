@@ -19,7 +19,8 @@ class PaymentInfoController
 
         return Inertia::render('Payments/ConfirmInfo', [
             'info' => $data['info'],
-            'status' => $data['status']
+            'status' => $data['status'],
+            'url' => config('custom.payment.ecpay.url')
         ]);
     }
 }
